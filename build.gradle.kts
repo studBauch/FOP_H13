@@ -1,54 +1,58 @@
+import org.sourcegrade.jagr.gradle.task.grader.GraderRunTask
+
 plugins {
-    java
-    application
-    alias(libs.plugins.style)
-    alias(libs.plugins.jagr.gradle)
+    alias(libs.plugins.algomate)
+    alias(libs.plugins.javafxplugin)
 }
 
-version = file("version").readLines().first()
-
-jagr {
+exercise {
     assignmentId.set("h13")
-    submissions {
-        val main by creating {
-            // ACHTUNG!
-            // Setzen Sie im folgenden Bereich Ihre TU-ID (NICHT Ihre Matrikelnummer!), Ihren Nachnamen und Ihren Vornamen
-            // in Anführungszeichen (z.B. "ab12cdef" für Ihre TU-ID) ein!
-            // studentId.set("")
-            // firstName.set("")
-            // lastName.set("")
+}
+
+submission {
+    // ACHTUNG!
+    // Setzen Sie im folgenden Bereich Ihre TU-ID (NICHT Ihre Matrikelnummer!), Ihren Nachnamen und Ihren Vornamen
+    // in Anführungszeichen (z.B. "ab12cdef" für Ihre TU-ID) ein!
+    studentId = null
+    firstName = null
+    lastName = null
+
+    // Optionally require own tests for mainBuildSubmission task. Default is false
+    requireTests = false
+}
+
+configurations.all {
+    resolutionStrategy {
+        configurations.all {
+            resolutionStrategy {
+                force(
+                    libs.algoutils.student,
+                    libs.algoutils.tutor,
+                    libs.junit.pioneer,
+                )
+            }
         }
     }
 }
 
-dependencies {
-    implementation(libs.annotations)
-    implementation(libs.algoutils.student)
-    testImplementation(libs.junit.core)
+javafx {
+    version = "17.0.1"
+    modules("javafx.controls", "javafx.graphics", "javafx.base", "javafx.swing")
 }
 
-application {
-    mainClass.set("h13.Main")
+jagr {
+    graders {
+        val graderPublic by getting {
+            graderName.set("H13-Public")
+            rubricProviderName.set("h13.H13_RubricProviderPublic")
+        }
+    }
 }
 
 tasks {
-    val runDir = File("build/run")
-    withType<JavaExec> {
+    withType<GraderRunTask> {
         doFirst {
-            runDir.mkdirs()
+            throw GradleException("Public tests will be released in the next few days.")
         }
-        workingDir = runDir
-    }
-    test {
-        doFirst {
-            runDir.mkdirs()
-        }
-        workingDir = runDir
-        useJUnitPlatform()
-    }
-    withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
     }
 }

@@ -1,5 +1,3 @@
-package h13;
-
 import h13.ui.app.PerlinNoiseApp;
 import javafx.application.Application;
 
