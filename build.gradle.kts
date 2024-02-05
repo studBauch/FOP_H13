@@ -1,6 +1,8 @@
-import org.sourcegrade.jagr.gradle.task.grader.GraderRunTask
+import org.sourcegrade.jagr.launcher.env.Config
+import org.sourcegrade.jagr.launcher.env.Executor
 
 plugins {
+    alias(libs.plugins.jagr)
     alias(libs.plugins.algomate)
     alias(libs.plugins.javafxplugin)
 }
@@ -50,9 +52,48 @@ jagr {
 }
 
 tasks {
-    withType<GraderRunTask> {
-        doFirst {
-            throw GradleException("Public tests will be released in the next few days.")
+    test {
+        jvmArgs(
+            "-Djava.awt.headless=true",
+            "-Dtestfx.robot=glass",
+            "-Dtestfx.headless=true",
+            "-Dprism.order=sw",
+            "-Dprism.lcdtext=false",
+            "-Dprism.subpixeltext=false",
+            "-Dglass.win.uiScale=100%",
+            "-Dprism.text=t2k"
+        )
+    }
+}
+
+jagr {
+    graders {
+        val graderPublic by getting {
+            graderName.set("H13-Public")
+            rubricProviderName.set("h13.H13_RubricProviderPublic")
+            configureDependencies {
+                implementation(libs.bundles.testfx)
+            }
+            config.set(
+                Config(
+                    executor = Executor(
+                        timeoutIndividual = 20000,
+                        timeoutTotal = 300000,
+                        jvmArgs = listOf(
+                            "-Djava.awt.headless=true",
+                            "-Dtestfx.robot=glass",
+                            "-Dtestfx.headless=true",
+                            "-Dprism.order=sw",
+                            "-Dprism.lcdtext=false",
+                            "-Dprism.subpixeltext=false",
+                            "-Dglass.win.uiScale=100%",
+                            "-Dprism.text=t2k"
+                        )
+                    )
+                )
+            )
         }
     }
 }
+
+
