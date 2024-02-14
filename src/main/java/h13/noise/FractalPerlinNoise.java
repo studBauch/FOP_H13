@@ -108,7 +108,18 @@ public class FractalPerlinNoise extends DelegatePerlinNoise implements PerlinNoi
     @Override
     @StudentImplementationRequired
     public double compute(double x, double y) {
-        return crash(); // TODO: H2.2 - remove if implemented
+        // H2.2
+        double result = 0.0;
+        double frequency = getFrequency();
+        double amplitude = this.amplitude;
+
+        for (int i=0; i < octaves; i++){
+            result += delegate.compute(x * frequency, y * frequency) * amplitude;
+
+            frequency *= lacunarity;
+            amplitude *= persistence;
+        }
+        return result;
     }
 
     @Override

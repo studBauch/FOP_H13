@@ -39,12 +39,24 @@ public class NumberStringConverter extends StringConverter<Number> {
     @Override
     @StudentImplementationRequired
     public String toString(Number value) {
-        return crash(); // TODO: H3.1 - remove if implemented
+        // H3.1
+        if (value == null){
+            return "";
+        }else {
+            return stringifier.apply(value);
+        }
     }
 
     @Override
     @StudentImplementationRequired
     public Number fromString(String value) {
-        return crash(); // TODO: H3.1 - remove if implemented
+        // H3.1
+        if(value == null || value.trim().isEmpty()){
+            return null;
+        }else if (value.equals("-")){
+            return numericizer.apply("-1");
+        }else {
+            return numericizer.apply(value);
+        }
     }
 }

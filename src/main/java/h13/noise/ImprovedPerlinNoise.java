@@ -60,13 +60,25 @@ public class ImprovedPerlinNoise extends SimplePerlinNoise implements PerlinNois
      */
     @StudentImplementationRequired
     private static int[] createPermutation(Random randomGenerator) {
-        return crash(); // TODO: H2.1 - remove if implemented
+        // H2.1
+        int[] p = new int[PERMUTATION_SIZE + 1];
+        for (int i=0; i < PERMUTATION_SIZE + 1; i++){
+            p[i] = i;
+        }
+        for (int i=0; i < PERMUTATION_SIZE ; i++){
+            int j = randomGenerator.nextInt(PERMUTATION_SIZE) + PERMUTATION_SIZE;
+            int temp = p[i];
+            p[j] = temp;
+        }
+        return p;
     }
 
     @Override
     @StudentImplementationRequired
     public Point2D getGradient(int x, int y) {
-        return crash(); // TODO: H2.1 - remove if implemented
+        // H2.1
+        int index = p[(x + p[y & 255]) & 255];
+        return getGradients()[index];
     }
 
     /**

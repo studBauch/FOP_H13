@@ -68,7 +68,16 @@ public class ChooserView extends AbstractView<ChooserView, GridPane> implements 
     @Override
     @StudentImplementationRequired
     public void initialize() {
-        crash(); // TODO: H4.1 - remove if implemented
+        // H4.1
+        options.addListener((MapChangeListener<String, CheckBox>) change -> {
+            for (var entry : change.getMap().entrySet()) {
+                if (change.wasAdded()) {
+                    addOption(change.getKey(), change.getValueAdded());
+                }else if (change.wasRemoved()) {
+                    removeOption(change.getKey());
+                }
+            }
+        });
     }
 
     /**
@@ -179,5 +188,19 @@ public class ChooserView extends AbstractView<ChooserView, GridPane> implements 
      */
     public void removeListener(MapChangeListener<? super String, ? super CheckBox> listener) {
         options.addListener(listener);
+    }
+
+    private void addOption(String text, CheckBox checkBox) {
+        root.add(checkBox, nextColumn, nextRow);
+        nextColumn++;
+        if (nextColumn >= columnSize) {
+            nextColumn = 0;
+            nextRow++;
+        }
+    }
+
+    private void removeOption(String text) {
+        CheckBox checkBox = options.get(text);
+        root.getChildren().remove(checkBox);
     }
 }

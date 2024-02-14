@@ -1,13 +1,17 @@
 package h13.ui.layout;
 
+import h13.noise.ImprovedPerlinNoise;
 import h13.noise.PerlinNoise;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.Nullable;
@@ -98,7 +102,11 @@ public abstract class AlgorithmViewModel {
      * @param h         the height of the image
      */
     public void draw(@Nullable PerlinNoise algorithm, GraphicsContext context, int x, int y, int w, int h) {
-        crash(); // TODO: H5.1 - remove if implemented
+        // H5.1 TODO
+        if (algorithm == null){
+            return;
+        }
+
     }
 
     /**
@@ -112,7 +120,21 @@ public abstract class AlgorithmViewModel {
      * @return the created image using the given algorithm and starting position and size
      */
     protected Image createImage(PerlinNoise algorithm, int x, int y, int w, int h) {
-        return crash(); // TODO: H5.1 - remove if implemented
+        // H5.1
+        WritableImage image = new WritableImage(w, h);
+
+        PixelWriter pixelWriter = image.getPixelWriter();
+
+        for (int i=0; i < w; i++){
+            for (int j=0; j < h; j++){
+                double noiseValue = algorithm.compute(x + i, y + j);
+
+                Color color = colorMapper.apply(noiseValue);
+
+                pixelWriter.setColor(i, j, color);
+            }
+        }
+        return image;
     }
 
     /**

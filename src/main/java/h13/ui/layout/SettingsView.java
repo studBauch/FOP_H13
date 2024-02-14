@@ -1,6 +1,10 @@
 package h13.ui.layout;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -8,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -107,7 +112,16 @@ public class SettingsView extends AbstractView<SettingsView, VBox> implements Vi
     @Override
     @StudentImplementationRequired
     public void initialize() {
-        crash(); // TODO: H4.3 - remove if implemented
+        //H4.3
+        root.getChildren().addAll(algorithms.getKey(), algorithms.getValue().getView(),
+                                    parameters.getKey(), parameters.getValue().getView());
+
+        buttonGroup.getChildren().addAll(generate, save);
+        root.getChildren().add(buttonGroup);
+
+        viewModel.addVisibilityListener(visibilities);
+
+        root.getChildren().add(getView());
     }
 
     /**

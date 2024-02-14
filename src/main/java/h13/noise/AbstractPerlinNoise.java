@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -114,7 +115,14 @@ public abstract class AbstractPerlinNoise implements PerlinNoise {
      */
     @StudentImplementationRequired
     protected Point2D[] createGradients(int width, int height) {
-        return crash(); // TODO: H1.1 - remove if implemented
+        // H1.1
+        Point2D[] gradients = new Point2D[(width ) * (height )];
+        for (int i=0; i < height; i++){
+            for (int j=0; j < width; j++){
+                gradients[j * (width ) + i] = createGradient();
+            }
+        }
+        return gradients;
     }
 
     /**
@@ -124,7 +132,10 @@ public abstract class AbstractPerlinNoise implements PerlinNoise {
      */
     @StudentImplementationRequired
     protected Point2D createGradient() {
-          return crash(); // TODO: H1.1 - remove if implemented
+        // H1.1
+        double angel = randomGenerator.nextDouble() * Math.PI;
+        double radius = Math.nextUp(randomGenerator.nextDouble()); //Vermeidung von Rundungsfehlern
+        return new Point2D(Math.cos(angel) * radius, Math.sin(angel) * radius);
     }
 
     @Override
@@ -160,10 +171,17 @@ public abstract class AbstractPerlinNoise implements PerlinNoise {
         return gradients;
     }
 
+    /**
+     * Gibt den Gradienten an der Position (x, y) in der Gradienten-Domän
+     * @param x the x coordinate of the gradient domain
+     * @param y the y coordinate of the gradient domain
+     * @return Der Gradient an der Position (x, y)
+     */
     @Override
     @StudentImplementationRequired
     public Point2D getGradient(int x, int y) {
-        return crash(); // TODO: H1.1 - remove if implemented
+        // H1.1
+        return gradients[y * (width + 1) + x];
     }
 
     @Override

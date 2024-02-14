@@ -46,6 +46,16 @@ public class SettingsViewModel {
      */
     @StudentImplementationRequired
     public void addVisibilityListener(Map<String, Set<String>> configurations) {
-        crash(); // TODO: H4.2 - remove if implemented
+        for (String algorithm : algorithms.keySet()){
+            BooleanProperty algorithmSelected = algorithms.get(algorithm);
+            for (String parameter : parameters.keySet()){
+                BooleanProperty parameterVisible = parameters.get(parameter);
+                if (configurations.containsKey(algorithm) && configurations.get(algorithm).contains(parameter)){
+                    parameterVisible.bind(algorithmSelected.not());
+                }else {
+                    parameterVisible.setValue(true);
+                }
+            }
+        }
     }
 }

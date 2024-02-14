@@ -1,5 +1,6 @@
 package h13.ui.controls;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextField;
@@ -7,6 +8,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 import org.tudalgo.algoutils.student.annotation.StudentImplementationRequired;
 
+import javax.naming.Binding;
 import java.util.regex.Pattern;
 
 import static org.tudalgo.algoutils.student.Student.crash;
@@ -53,7 +55,8 @@ public abstract class NumberField extends TextField {
      */
     @StudentImplementationRequired
     protected void initBindings() {
-        crash(); // TODO: H3.2 - remove if implemented
+        // H3.2
+        Bindings.bindBidirectional(this.textProperty(), value, getConverter());
     }
 
     /**
