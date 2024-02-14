@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.util.Map;
@@ -72,26 +73,12 @@ public class AlgorithmView extends AbstractView<AlgorithmView, BorderPane> imple
      */
     protected void initializeButtons() {
         // H5.2
-        // Generieren-Button
-        settings.getGenerate().setOnAction(event -> {
-            PerlinNoise algorithm = viewModel.getAlgorithm();
-            if (algorithm != null) {
-                GraphicsContext gc = visualization.getGraphicsContext2D();
-                int width = (int) visualization.getWidth();
-                int height = (int) (visualization.getHeight() - settings.getView().getHeight());
-                viewModel.draw(algorithm, gc, 0, 0, width, height);
-                viewModel.lastAlgorithm.setFrequency(algorithm.getFrequency());
-            }
-        });
+        Button generate = settings.getGenerate();
 
-        // Speichern-Button
-        settings.getGenerate().setOnAction(event -> {
-            if (viewModel.getLastAlgorithm() != null) {
-                int width = (int) visualization.getWidth();
-                int height = (int) (visualization.getHeight() - settings.getView().getHeight());
-                viewModel.save(width, height);
-            }
-        });
+        int width = (int)visualization.getWidth();
+        int height = (int)visualization.getHeight();
+
+        generate.setOnAction(event -> viewModel.draw(viewModel.getAlgorithm(), visualization.getGraphicsContext2D(), 0, 0, width, height));
     }
 
     /**
@@ -99,26 +86,12 @@ public class AlgorithmView extends AbstractView<AlgorithmView, BorderPane> imple
      */
     protected void initializeSize() {
         //5.2
-        // Canvas an die Größe des BorderPanes anpassen
-        visualization.widthProperty().bind(root.widthProperty().subtract(settings.getView().widthProperty()));
-        visualization.heightProperty().bind(root.heightProperty().subtract(settings.getView().heightProperty()));
+        Button save = settings.getSave();
 
-        // Zeichnen, wenn die Größe des Canvas sich ändert
-        visualization.widthProperty().addListener((observable, oldValue, newValue) -> {
-            if (viewModel.getLastAlgorithm() != null) {
-                int width = (int) newValue;
-                int height = (int) (visualization.getHeight() - settings.getView().getHeight());
-                viewModel.draw(viewModel.getLastAlgorithm(), visualization.getGraphicsContext2D(), 0, 0, width, height);
-            }
-        });
+        int width = (int)root.getWidth();
+        int height = (int)root.getHeight();
 
-        visualization.heightProperty().addListener((observable, oldValue, newValue) -> {
-            if (viewModel.getLastAlgorithm() != null) {
-                int width = (int) visualization.getWidth();
-                int height = (int) (settings.getView().getHeight());
-                viewModel.draw(viewModel.getLastAlgorithm(), visualization.getGraphicsContext2D(), 0, 0, width, height);
-            }
-        });
+        save.setOnAction(event -> viewModel.save(width, height));
     }
 
     /**

@@ -103,7 +103,8 @@ public class PerlinNoiseViewModel extends AlgorithmViewModel {
 
     @Override
     protected @Nullable PerlinNoise getAlgorithm() {
-        return crash(); // TODO: H6 - remove if implemented
+        //H6 TODO
+        return crash();
     }
 
     /**
@@ -126,3 +127,4 @@ public class PerlinNoiseViewModel extends AlgorithmViewModel {
         return parameters.get(parameter.toString());
     }
 }
+

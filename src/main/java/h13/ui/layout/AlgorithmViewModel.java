@@ -110,7 +110,7 @@ public abstract class AlgorithmViewModel {
         //Wann ist der algo normalized?
 
         lastAlgorithm = PerlinNoise.normalized(algorithm);
-        context.drawImage(createImage(algorithm, x, y, h, w), 0.0, 0.0);
+        context.drawImage(createImage(algorithm, x, y, w, h), 0.0, 0.0);
 
     }
 
