@@ -107,6 +107,11 @@ public abstract class AlgorithmViewModel {
             return;
         }
 
+        //Wann ist der algo normalized?
+
+        lastAlgorithm = PerlinNoise.normalized(algorithm);
+        context.drawImage(createImage(algorithm, x, y, h, w), 0.0, 0.0);
+
     }
 
     /**

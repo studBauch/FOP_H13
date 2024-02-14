@@ -62,13 +62,12 @@ public class SimplePerlinNoise extends AbstractPerlinNoise implements PerlinNois
         // Berechnen des Distanzvektors
         double dx = x - x0;
         double dy = y - y0;
-        double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 
         // Berechnen der Skalarprodukte
-        double sx0y0 = new Point2D(d + 0, d + 0).dotProduct(x0y0);
-        double sx1y0 = new Point2D(d - 1, d + 0).dotProduct(x1y0);
-        double sx0y1 = new Point2D(d + 0, d - 1).dotProduct(x0y1);
-        double sx1y1 = new Point2D(d - 1, d - 1).dotProduct(x1y1);
+        double sx0y0 = new Point2D(dx + 0, dy + 0).dotProduct(x0y0);
+        double sx1y0 = new Point2D(dx- 1, dy + 0).dotProduct(x1y0);
+        double sx0y1 = new Point2D(dx + 0, dy - 1).dotProduct(x0y1);
+        double sx1y1 = new Point2D(dx - 1, dy - 1).dotProduct(x1y1);
 
         double lx0 = interpolate(sx0y0, sx1y0, fade(dx));
         double lx1 = interpolate(sx0y1, sx1y1, fade(dx));

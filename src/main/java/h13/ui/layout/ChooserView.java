@@ -72,7 +72,7 @@ public class ChooserView extends AbstractView<ChooserView, GridPane> implements 
         options.addListener((MapChangeListener<String, CheckBox>) change -> {
             for (var entry : change.getMap().entrySet()) {
                 if (change.wasAdded()) {
-                    addOption(change.getKey(), change.getValueAdded());
+                    addOption(change.getValueAdded());
                 }else if (change.wasRemoved()) {
                     removeOption(change.getKey());
                 }
@@ -190,7 +190,7 @@ public class ChooserView extends AbstractView<ChooserView, GridPane> implements 
         options.addListener(listener);
     }
 
-    private void addOption(String text, CheckBox checkBox) {
+    private void addOption(CheckBox checkBox) {
         root.add(checkBox, nextColumn, nextRow);
         nextColumn++;
         if (nextColumn >= columnSize) {
